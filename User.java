@@ -138,4 +138,9 @@ public class User
 		}
 		return flw;
 	}
+	
+	public Double accept(Visitor visitor) 
+	{
+	      return visitor.visit(this);
+	}
 }
