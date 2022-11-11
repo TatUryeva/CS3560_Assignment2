@@ -60,6 +60,14 @@ public class AdminWindow extends JFrame implements ActionListener
 				}
         	}        	
         }
+        
+        
+        if (s.equals("show positive")) 
+        {
+            p.setText(Double.toString(Database.getAllUsers().get(0).accept(new Visitor())));
+        }
+        
+        
     }
 	
     static JFrame frame;
@@ -70,7 +78,7 @@ public class AdminWindow extends JFrame implements ActionListener
     
     static JButton showUserTotal;
     static JButton showGroupTotal;
-    static JButton showMessageTotal;
+    static JButton showMessageTotal;   
     
     static JLabel u;
     static JLabel g;
@@ -86,6 +94,9 @@ public class AdminWindow extends JFrame implements ActionListener
     static DefaultMutableTreeNode currentNode;
     static DefaultTreeCellRenderer renderer;
     //static int nodePosition;
+    
+    static JButton sp;
+    static JLabel p;
     
 	public static void main(String[] args)
     //public Window()
@@ -203,7 +214,8 @@ public class AdminWindow extends JFrame implements ActionListener
         entries.setLayout(layout);
         
         JPanel stats = new JPanel();
-        layout = new GridLayout(3, 2);
+        //layout = new GridLayout(3, 2);
+        layout = new GridLayout(4, 2);
         layout.setHgap(10);
         layout.setVgap(10);
         stats.setLayout(layout);
@@ -211,9 +223,9 @@ public class AdminWindow extends JFrame implements ActionListener
         u = new JLabel("selected user");
         g = new JLabel("selected group");
         
-        ut = new JLabel("nothing entered");
-        gt = new JLabel("nothing entered");
-        mt = new JLabel("nothing entered");
+        ut = new JLabel("nothing displayed");
+        gt = new JLabel("nothing displayed");
+        mt = new JLabel("nothing displayed");
         
         addUser = new JButton("add user");
         addGroup = new JButton("add group");
@@ -255,6 +267,14 @@ public class AdminWindow extends JFrame implements ActionListener
         controls.add(entries, BorderLayout.NORTH);
         controls.add(stats, BorderLayout.SOUTH);
         controls.add(userView, BorderLayout.CENTER);
+        
+        
+        sp = new JButton("show positive");
+        sp.addActionListener(new AdminWindow());
+        p = new JLabel("nothing displayed");
+        stats.add(sp);
+        stats.add(p);
+        
         
         frame.add(controls);
         frame.setSize(700, 500);
