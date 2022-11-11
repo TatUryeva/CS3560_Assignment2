@@ -5,7 +5,6 @@ import javax.swing.event.*;
 import javax.swing.tree.*;
 
 import java.awt.*;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.*;   
 
@@ -20,17 +19,19 @@ public class AdminWindow extends JFrame implements ActionListener
             //try {
 				Database.getGroup(currentNode.toString()).addUser(userID.getText());
 			//} catch (Exception e1) {}
-            currentNode.insert(new DefaultMutableTreeNode(userID.getText()), 0);
+            //currentNode.insert(new DefaultMutableTreeNode(userID.getText()), 0);
+			currentNode.insert(new DefaultMutableTreeNode(new User(userID.getText())), 0);
             SwingUtilities.updateComponentTreeUI(frame);
         }
         if (s.equals("add group")) 
         {
-            g.setText(groupID.getText());          
+            g.setText(groupID.getText());
             //try {
 				Database.getGroup(currentNode.toString()).addSubgroup(groupID.getText());
 			//} catch (Exception e1) {}
-            currentNode.insert(new DefaultMutableTreeNode(groupID.getText()), 0);
-            DefaultMutableTreeNode g = (DefaultMutableTreeNode) currentNode.getChildAt(0);
+            //currentNode.insert(new DefaultMutableTreeNode(groupID.getText()), 0);
+            currentNode.insert(new DefaultMutableTreeNode(new Group(groupID.getText())), 0);
+                
             SwingUtilities.updateComponentTreeUI(frame);
         }
         
@@ -53,7 +54,7 @@ public class AdminWindow extends JFrame implements ActionListener
         	{
         		System.out.println(tree.getLastSelectedPathComponent().toString() + "'s user window is opened");
         		try {
-					UserWindow uw = new UserWindow(tree.getLastSelectedPathComponent().toString());
+					new UserWindow(tree.getLastSelectedPathComponent().toString());
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -61,14 +62,37 @@ public class AdminWindow extends JFrame implements ActionListener
         	}        	
         }
         
-        
+        /*
         if (s.equals("show positive")) 
         {
             p.setText(Double.toString(Database.getAllUsers().get(0).accept(new Visitor())));
         }
-        
+        */
         
     }
+	
+	private class CustomTreeCellRenderer extends DefaultTreeCellRenderer 
+	{
+		  @Override
+		  public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) 
+		  {
+			  super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+			  
+			  if (value instanceof DefaultMutableTreeNode) 
+			  {
+				  DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+				  //if (Database.getGroup(node.getPath()[node.getPath().length-1].toString()) != null) 
+				  if (node.getUserObject() instanceof Group)
+				  {
+					  DefaultTreeCellRenderer r = new DefaultTreeCellRenderer();
+					  //r.setLeafIcon(r.getClosedIcon());
+					  System.out.println(this.getClass().toString());
+					  setIcon(r.getClosedIcon());
+				  }
+			  }
+			  return this;
+		  }
+	}
 	
     static JFrame frame;
     
@@ -183,8 +207,11 @@ public class AdminWindow extends JFrame implements ActionListener
         tree = new JTree(root);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         
-        renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+        //renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+        //renderer.setLeafIcon(renderer.getClosedIcon());        
         //tree.setCellRenderer(renderer);
+        
+        tree.setCellRenderer(new AdminWindow().new CustomTreeCellRenderer());
         
         tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
             
@@ -214,8 +241,8 @@ public class AdminWindow extends JFrame implements ActionListener
         entries.setLayout(layout);
         
         JPanel stats = new JPanel();
-        //layout = new GridLayout(3, 2);
-        layout = new GridLayout(4, 2);
+        layout = new GridLayout(3, 2);
+        //layout = new GridLayout(4, 2);
         layout.setHgap(10);
         layout.setVgap(10);
         stats.setLayout(layout);
@@ -269,15 +296,15 @@ public class AdminWindow extends JFrame implements ActionListener
         controls.add(userView, BorderLayout.CENTER);
         
         
-        sp = new JButton("show positive");
-        sp.addActionListener(new AdminWindow());
-        p = new JLabel("nothing displayed");
-        stats.add(sp);
-        stats.add(p);
+        //sp = new JButton("show positive");
+        //sp.addActionListener(new AdminWindow());
+        //p = new JLabel("nothing displayed");
+        //stats.add(sp);
+        //stats.add(p);
         
         
         frame.add(controls);
-        frame.setSize(700, 500);
+        frame.setSize(800, 600);
  
         frame.setVisible(true);
 	}
