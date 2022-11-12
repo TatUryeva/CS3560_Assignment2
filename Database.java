@@ -1,4 +1,4 @@
-package assignment2;
+//package assignment2;
 
 import java.util.ArrayList;
 
@@ -41,8 +41,10 @@ public class Database
 		return null;
 	}
 	
+	
 	public static ArrayList<User> getAllUsers()
 	{
 		return users;
 	}
+	
 }
