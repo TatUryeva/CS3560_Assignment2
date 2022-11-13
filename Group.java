@@ -1,5 +1,3 @@
-//package assignment2;
-
 import java.util.ArrayList;
 
 public class Group 
@@ -56,12 +54,7 @@ public class Group
 		subgroups.add(Database.getGroup(g));
 		//Database.getGroup(g).setSupergroup(this);
 	}
-	/*
-	public void setSupergroup(Group sg)
-	{
-		supergroup = sg;
-	}
-	*/
+
 	public ArrayList<User> getUsers()
 	{
 		return users;
@@ -71,18 +64,7 @@ public class Group
 	{
 		return subgroups;
 	}
-	
-	//public static Group getRoot()
-	//{
-		//return root;
-	//}
-	
-	/*
-	public Group getSupergroup()
-	{
-		return supergroup;
-	}
-	*/
+
 	public static int getGroupCount()
 	{
 		return groupCount;

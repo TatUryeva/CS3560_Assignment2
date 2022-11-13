@@ -1,5 +1,3 @@
-//package assignment2;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -94,21 +92,12 @@ public class UserWindow implements ActionListener
 		messageText = new JTextArea(5, 20);
 		messageText.setLineWrap(true);
 		
-		//JScrollPane messageScroll = new JScrollPane(messageText);
-        //frame.add(messageScroll);		
 		
 		flwgs = new DefaultListModel<String>();
-		//flwgs.addElement(Database.getUser("john").getID());
 		fd = new DefaultListModel<String>();
-		//modelFollowings.addElement("john");
-		//modelFeed = new DefaultListModel();
 		
 		followings = new JList<String>(flwgs);
 		feed = new JList<String>(fd);
-		//followings = new JList(Database.getUser("bob").followingsToArray());
-		//feed = new JList(Database.getUser("bob").getFeed().toArray());
-		//followings = new JList(user.followingsToArray());
-		//feed = new JList(user.getFeed().toArray());
 		
 		JScrollPane followingsScroll = new JScrollPane(followings);
         frame.add(followingsScroll);

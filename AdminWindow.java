@@ -1,5 +1,3 @@
-//package assignment2;
-
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -82,6 +80,16 @@ public class AdminWindow extends JFrame implements ActionListener
 		  }
 	}
 	
+    private static AdminWindow admin;
+	public static AdminWindow instantiateAdminWindow()
+	{
+		if (admin == null)
+		{
+			admin = new AdminWindow();
+		}		
+		return admin;
+	}
+
     static JFrame frame;
     
     static JButton addUser;
@@ -110,94 +118,20 @@ public class AdminWindow extends JFrame implements ActionListener
     static JButton sp;
     static JLabel p;
     
-	public static void main(String[] args)
-    //public Window()
+	//public static void main(String[] args)
+    public AdminWindow()
 	{		
 		Group r = new Group("root");
-		/*
-		User j = new User("john");
-		User b = new User("bob");
-		User s = new User("steve");
-		
-		r.addUser("john");
-		r.addUser("bob");
-		r.addUser("steve");
-		
-		Group cs = new Group("CS356");		
-		r.addSubgroup("CS356");
-		
-		User s1 = new User("stu1");
-		User s2 = new User("stu2");
-		User s3 = new User("stu3");
-		
-		cs.addUser("stu1");
-		cs.addUser("stu2");
-		cs.addUser("stu3");
-				
-		Group cs01 = new Group("CS356Session01");		
-		cs.addSubgroup("CS356Session01");
-
-		User s7 = new User("stu7");
-		User s8 = new User("stu8");
-		User s9 = new User("stu9");
-		
-		cs01.addUser("stu7");
-		cs01.addUser("stu8");
-		cs01.addUser("stu9");
-		*/
-		
-		
-				
-		//Group Root = new Group("root");
-		
-		//Group CS356 = new Group("CS356");
-		//Root.addSubgroup("CS356");
-		//Group CS356session01 = new Group("CS356Session01");		
-		//CS356.addSubgroup("CS356Session01");
 		
         frame = new JFrame("Admin View");
         frame.setLayout(new GridLayout());
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
         
-        /*
-        DefaultMutableTreeNode john = new DefaultMutableTreeNode("john");
-        DefaultMutableTreeNode bob = new DefaultMutableTreeNode("bob");
-        DefaultMutableTreeNode steve = new DefaultMutableTreeNode("steve");
-        
-        root.add(john);
-        root.add(bob);
-        root.add(steve);
-        
-        DefaultMutableTreeNode cs356 = new DefaultMutableTreeNode("CS356");
-        
-        root.add(cs356);
-        
-        DefaultMutableTreeNode stu1 = new DefaultMutableTreeNode("stu1");
-        DefaultMutableTreeNode stu2 = new DefaultMutableTreeNode("stu2");
-        DefaultMutableTreeNode stu3 = new DefaultMutableTreeNode("stu3");
-        
-        cs356.add(stu1);
-        cs356.add(stu2);
-        cs356.add(stu3);
-        
-        DefaultMutableTreeNode cs356session01 = new DefaultMutableTreeNode("CS356Session01");
-        
-        cs356.add(cs356session01);
-        
-        DefaultMutableTreeNode stu7 = new DefaultMutableTreeNode("stu7");
-        DefaultMutableTreeNode stu8 = new DefaultMutableTreeNode("stu8");
-        DefaultMutableTreeNode stu9 = new DefaultMutableTreeNode("stu9");
-        
-        cs356session01.add(stu7);
-        cs356session01.add(stu8);
-        cs356session01.add(stu9);
-        */
-        
         tree = new JTree(root);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         
-        tree.setCellRenderer(new AdminWindow().new CustomTreeCellRenderer());
+        tree.setCellRenderer(new CustomTreeCellRenderer());
         
         tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
             
@@ -248,13 +182,13 @@ public class AdminWindow extends JFrame implements ActionListener
         showGroupTotal = new JButton("show group total");
         showMessageTotal = new JButton("show message total");
         
-        addUser.addActionListener(new AdminWindow());
-        addGroup.addActionListener(new AdminWindow());
-        userView.addActionListener(new AdminWindow());
+        addUser.addActionListener(this);
+        addGroup.addActionListener(this);
+        userView.addActionListener(this);
         
-        showUserTotal.addActionListener(new AdminWindow());
-        showGroupTotal.addActionListener(new AdminWindow());
-        showMessageTotal.addActionListener(new AdminWindow());
+        showUserTotal.addActionListener(this);
+        showGroupTotal.addActionListener(this);
+        showMessageTotal.addActionListener(this);
         
         userID = new JTextArea(1, 20);
         groupID = new JTextArea(1, 20);   
@@ -283,7 +217,7 @@ public class AdminWindow extends JFrame implements ActionListener
         
         
         sp = new JButton("show positive");
-        sp.addActionListener(new AdminWindow());
+        sp.addActionListener(this);
         p = new JLabel("nothing displayed");
         stats.add(sp);
         stats.add(p);

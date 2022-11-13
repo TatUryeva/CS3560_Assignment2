@@ -1,5 +1,3 @@
-//package assignment2;
-
 import java.util.ArrayList;
 
 public class User 
@@ -20,17 +18,10 @@ public class User
 	
 	public User(String id)
 	{
-		if (Database.getUser(id) != null)
-		{
-			System.out.println("the user " + id + " already exists");
-		}
-		else
-		{
-			ID = id;
-			Database.addUser(this);
-			userCount++;
-			setObserver(new Observer(this));
-		}
+		ID = id;
+		Database.addUser(this);
+		userCount++;
+		setObserver(new Observer(this));
 		//setObserver(uo);
 		//Group.getRoot().addUser(id);
 	}
@@ -54,12 +45,6 @@ public class User
 			//Database.getUser(id).getFollowers().add(this);
 		}		
 	}
-	
-	//public void addFollowing(String id)
-	//{
-		//followings.add(id);
-		//Database.getUser(id).observer.updateFollowing(id);
-	//}
 	
 	public void addFeed(String message)
 	{
@@ -91,12 +76,6 @@ public class User
 		feed.add(message);
 		messageCount++;
 		observer.updateFeed(message);
-		/*
-		for (int i = 0; i < followers.size(); i++)
-		{
-			followers.get(i).getFeed().add(message);
-		}
-		*/
 	}
 	
 	public void setGroup(Group ug)
