@@ -15,7 +15,6 @@ public class UserWindow implements ActionListener
         String s = e.getActionCommand();
         if (s.equals("follow user")) 
         {
-        	//Database.getUser("bob").follow(userID.getText());
         	if (Database.getUser(userID.getText()) != null)
         	{
 	        	user.follow(userID.getText());
@@ -26,7 +25,6 @@ public class UserWindow implements ActionListener
         }
         if (s.equals("post message")) 
         {
-        	//Database.getUser("bob").post(messageText.getText());
         	user.post(messageText.getText());
         	fd.addElement("me: " + messageText.getText());
         	feed.setModel(fd);
@@ -34,11 +32,19 @@ public class UserWindow implements ActionListener
         }
     }
 	
-	public void recieveFeedUpdate(String userName, String message)
+	public void recieveFeedUpdate(String message)
 	{
 		//fd.addElement(user.getFeed().get(user.getFeed().size()-1).toString());
-		fd.addElement(userName + ": " + message);
+		fd.addElement(message);
     	feed.setModel(fd);
+	}
+
+	private void resumeList(DefaultListModel<String> model, ArrayList<String> ids)
+	{
+		for (int i = 0; i < ids.size(); i++)
+		{
+			model.addElement(ids.get(i).toString());
+		}
 	}
 	
 	public String getUserID()
@@ -94,7 +100,9 @@ public class UserWindow implements ActionListener
 		
 		
 		flwgs = new DefaultListModel<String>();
+		resumeList(flwgs, user.followingsToStringArrayList());
 		fd = new DefaultListModel<String>();
+		resumeList(fd, user.getFeed());
 		
 		followings = new JList<String>(flwgs);
 		feed = new JList<String>(fd);

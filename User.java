@@ -73,7 +73,7 @@ public class User
 	
 	public void post(String message)
 	{
-		feed.add(message);
+		feed.add("me: " + message);
 		messageCount++;
 		observer.updateFeed(message);
 	}
@@ -103,16 +103,15 @@ public class User
 		return messageCount;
 	}
 	
-	public String[] followingsToStringArray()
+	public ArrayList<String> followingsToStringArrayList()
 	{
-		String[] flw = new String[followings.size()];
+		ArrayList<String> flwgs = new ArrayList<String>();
 		for (int i = 0; i < followings.size(); i++)
 		{
-			flw[i] = followings.get(i).getID();
+			flwgs.add(followings.get(i).getID());
 		}
-		return flw;
-	}
-	
+		return flwgs;
+	}	
 	
 	public Double accept(Visitor visitor) 
 	{

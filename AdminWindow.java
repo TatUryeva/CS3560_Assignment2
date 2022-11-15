@@ -16,6 +16,7 @@ public class AdminWindow extends JFrame implements ActionListener
             u.setText(userID.getText());
 			Database.getGroup(currentNode.toString()).addUser(userID.getText());
 			currentNode.insert(new DefaultMutableTreeNode(Database.getUser(userID.getText())), 0);
+            userID.setText("");
             SwingUtilities.updateComponentTreeUI(frame);
         }
         if (s.equals("add group")) 
@@ -23,6 +24,7 @@ public class AdminWindow extends JFrame implements ActionListener
             g.setText(groupID.getText());
 			Database.getGroup(currentNode.toString()).addSubgroup(groupID.getText());
             currentNode.insert(new DefaultMutableTreeNode(Database.getGroup(groupID.getText())), 0);
+            groupID.setText("");
             SwingUtilities.updateComponentTreeUI(frame);
         }
         
@@ -113,7 +115,6 @@ public class AdminWindow extends JFrame implements ActionListener
     static JTree tree;
     static DefaultMutableTreeNode currentNode;
     static DefaultTreeCellRenderer renderer;
-    //static int nodePosition;
     
     static JButton sp;
     static JLabel p;
