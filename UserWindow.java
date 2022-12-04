@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -29,6 +30,7 @@ public class UserWindow implements ActionListener
         	fd.addElement("me: " + messageText.getText());
         	feed.setModel(fd);
         	messageText.setText("");
+			ut.setText("| updated at " + user.getLastUpdateTime());
         }
     }
 	
@@ -37,6 +39,7 @@ public class UserWindow implements ActionListener
 		//fd.addElement(user.getFeed().get(user.getFeed().size()-1).toString());
 		fd.addElement(message);
     	feed.setModel(fd);
+		ut.setText("| updated at " + user.getLastUpdateTime());
 	}
 
 	private void resumeList(DefaultListModel<String> model, ArrayList<String> ids)
@@ -74,6 +77,9 @@ public class UserWindow implements ActionListener
     private DefaultListModel<String> fd;
     
     private User user;
+
+	private JLabel ct;
+    private JLabel ut;
     
 	//public static void main(String[] args) throws Exception
     public UserWindow(String id)
@@ -82,7 +88,7 @@ public class UserWindow implements ActionListener
     	
     	user = Database.getUser(id);
 				
-		frame = new JFrame(user.getID() + " User View");
+		frame = new JFrame(user.getID() + " User View. Created at " + user.getCreationTime());
 		GridBagLayout layout = new GridBagLayout();
 		JPanel controls = new JPanel(layout);
 		
@@ -110,7 +116,10 @@ public class UserWindow implements ActionListener
 		JScrollPane followingsScroll = new JScrollPane(followings);
         frame.add(followingsScroll);
         JScrollPane feedScroll = new JScrollPane(feed);
-        frame.add(feedScroll);			 	        
+        frame.add(feedScroll);	
+		
+		ct = new JLabel("created at " + user.getCreationTime());
+		ut = new JLabel("| updated at " + user.getCreationTime());
 		
         gbc.insets = new Insets(5,5,5,5); 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -144,7 +153,15 @@ public class UserWindow implements ActionListener
 		controls.add(feed, gbc);
 		
 		
-		frame.add(controls);
+		JPanel timing = new JPanel();
+		timing.add(ct);
+		timing.add(ut);
+
+		JPanel view = new JPanel(new BorderLayout());
+		view.add(controls, BorderLayout.CENTER);
+		view.add(timing, BorderLayout.SOUTH);
+
+		frame.add(view);
 		frame.setSize(400, 400);
 		 
 		frame.setVisible(true);

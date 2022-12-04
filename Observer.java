@@ -15,7 +15,7 @@ public class Observer
 		ArrayList<UserWindow> ouw = UserWindow.getOpenedUserWindows();
 		for (int i = 0; i < user.getFollowers().size(); i++)
 		{
-			Database.getUser(user.getFollowers().get(i).getID()).getFeed().add(user.getID() + ": " + message);
+			Database.getUser(user.getFollowers().get(i).getID()).addFeed(user.getID() + ": " + message);
 			//System.out.println(user.getFollowers().get(i).getID()+" got feed from " + user.getID());
 			for (int j = 0; j < UserWindow.getOpenedUserWindows().size(); j++)
 			{

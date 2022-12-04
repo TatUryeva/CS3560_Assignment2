@@ -15,6 +15,9 @@ public class User
 	private static int messageCount = 0;
 	
 	private Observer observer;
+
+	private long creationTime;
+	private long lastUpdateTime;
 	
 	public User(String id)
 	{
@@ -24,6 +27,7 @@ public class User
 		setObserver(new Observer(this));
 		//setObserver(uo);
 		//Group.getRoot().addUser(id);
+		creationTime = System.currentTimeMillis();
 	}
 	
 	public void follow(String id)
@@ -49,6 +53,7 @@ public class User
 	public void addFeed(String message)
 	{
 		feed.add(message);
+		lastUpdateTime = System.currentTimeMillis();
 	}
 	
 	public String getID()
@@ -73,9 +78,10 @@ public class User
 	
 	public void post(String message)
 	{
-		feed.add("me: " + message);
+		this.addFeed("me: " + message);
 		messageCount++;
 		observer.updateFeed(message);
+		lastUpdateTime = System.currentTimeMillis();
 	}
 	
 	public void setGroup(Group ug)
@@ -102,6 +108,16 @@ public class User
 	{
 		return messageCount;
 	}
+
+	public long getCreationTime()
+	{
+		return creationTime;
+	}
+
+	public long getLastUpdateTime()
+	{
+		return lastUpdateTime;
+	}
 	
 	public ArrayList<String> followingsToStringArrayList()
 	{
@@ -117,7 +133,6 @@ public class User
 	{
 	      return visitor.visit(this);
 	}
-	
 	
 	public String toString()
 	{

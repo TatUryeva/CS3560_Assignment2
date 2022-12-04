@@ -13,16 +13,16 @@ public class Group
 	//private Group supergroup;
 	
 	private static int groupCount = 0;
+
+	private long creationTime;
 	
 	public Group(String id)
 	{
-		if (Database.getGroup(id) == null)
-		{
-			ID = id;
-			Database.addGroup(this);
-			groupCount++;
-		}		
+		ID = id;
+		Database.addGroup(this);
+		groupCount++;	
 		//root.addSubgroup(id);
+		creationTime = System.currentTimeMillis();
 	}
 	
 	public String getID()
@@ -32,27 +32,13 @@ public class Group
 	
 	public void addUser(String u)
 	{
-		//users.add(u);
-		if(Database.getUser(u) == null)
-		{
-			users.add(new User(u));
-		}	
+		users.add(new User(u));	
 		Database.getUser(u).setGroup(this);
 	}
 	
 	public void addSubgroup(String g)
 	{
-		//subgroups.add(g);
-		if(Database.getGroup(g) == null)
-		{
-			subgroups.add(new Group(g));
-		}
-		else
-		{
-			subgroups.add(Database.getGroup(g));
-		}	
-		subgroups.add(Database.getGroup(g));
-		//Database.getGroup(g).setSupergroup(this);
+		subgroups.add(new Group(g));
 	}
 
 	public ArrayList<User> getUsers()
@@ -68,6 +54,11 @@ public class Group
 	public static int getGroupCount()
 	{
 		return groupCount;
+	}
+
+	public long getCreationTime()
+	{
+		return creationTime;
 	}
 	
 	public String toString()

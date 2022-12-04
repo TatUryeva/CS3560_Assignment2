@@ -49,8 +49,50 @@ public class AdminWindow extends JFrame implements ActionListener
 				new UserWindow(tree.getLastSelectedPathComponent().toString());
         	}        	
         }
-        
-        
+        if (s.equals("validate entries"))
+        {
+        	String[] ids = Database.getAllIDs();
+            boolean allValid = true;
+        	for (int i = 0; i < ids.length; i++)
+        	{
+        		if (ids[i].indexOf(" ") >= 0)
+        		{
+        			//new ValidationDialog();
+        			new ValidationDialog("some entries/entry contain(s) space");
+                    allValid = false;
+        			i = ids.length;
+        		}
+                else
+                {
+                    for (int j = 0; j < ids.length; j++)
+                    {
+                        System.out.println(ids[i]+" "+ids[j]);
+                        if (i != j && ids[i].equals(ids[j]))
+                        {
+                            //new ValidationDialog();
+                            
+                            new ValidationDialog("duplicate entries are present");
+                            allValid = false;
+                            i = ids.length;
+                            j = ids.length;
+                        }
+                    }
+                }        		
+        	}
+            if (allValid)
+        	{
+                System.out.println(allValid);
+                System.out.println(ids.length);
+        		new ValidationDialog("all entries are valid");
+        	}
+        }
+        if (s.equals("show last updated user"))
+        {
+        	if (!Database.isEmpty())
+        	{
+        		lu.setText(Database.getLastUpdatedUser());
+        	}       	      	
+        }
         if (s.equals("show positive")) 
         {
             p.setText(Double.toString(Database.getAllUsers().get(0).accept(new Visitor())));
@@ -96,11 +138,14 @@ public class AdminWindow extends JFrame implements ActionListener
     
     static JButton addUser;
     static JButton addGroup;
+
     static JButton userView;
+    static JButton validate;
     
     static JButton showUserTotal;
     static JButton showGroupTotal;
-    static JButton showMessageTotal;   
+    static JButton showMessageTotal;
+    static JButton showLastUpdated;  
     
     static JLabel u;
     static JLabel g;
@@ -108,6 +153,7 @@ public class AdminWindow extends JFrame implements ActionListener
     static JLabel ut;
     static JLabel gt;
     static JLabel mt;
+    static JLabel lu;
     
     static JTextArea userID;
     static JTextArea groupID;
@@ -163,33 +209,47 @@ public class AdminWindow extends JFrame implements ActionListener
         
         JPanel stats = new JPanel();
         //layout = new GridLayout(3, 2);
-        layout = new GridLayout(4, 2);
+        layout = new GridLayout(5, 2);
         layout.setHgap(10);
         layout.setVgap(10);
         stats.setLayout(layout);
+
+        JPanel validation = new JPanel();
+        layout = new GridLayout(2, 1);
+        //layout = new GridLayout(4, 2);
+        layout.setHgap(10);
+        layout.setVgap(10);
+        validation.setLayout(layout);
         
         u = new JLabel("selected user");
         g = new JLabel("selected group");
         
-        ut = new JLabel("nothing displayed");
-        gt = new JLabel("nothing displayed");
-        mt = new JLabel("nothing displayed");
+        ut = new JLabel("");
+        gt = new JLabel("");
+        mt = new JLabel("");
+        lu = new JLabel("");
         
         addUser = new JButton("add user");
         addGroup = new JButton("add group");
+
         userView = new JButton("open user view");
+        validate = new JButton("validate entries");
         
         showUserTotal = new JButton("show user total");
         showGroupTotal = new JButton("show group total");
         showMessageTotal = new JButton("show message total");
+        showLastUpdated = new JButton("show last updated user");
         
         addUser.addActionListener(this);
         addGroup.addActionListener(this);
+
         userView.addActionListener(this);
+        validate.addActionListener(this);
         
         showUserTotal.addActionListener(this);
         showGroupTotal.addActionListener(this);
         showMessageTotal.addActionListener(this);
+        showLastUpdated.addActionListener(this);
         
         userID = new JTextArea(1, 20);
         groupID = new JTextArea(1, 20);   
@@ -210,16 +270,22 @@ public class AdminWindow extends JFrame implements ActionListener
         
         stats.add(showMessageTotal);
         stats.add(mt);
+
+        stats.add(showLastUpdated);
+        stats.add(lu);
+
+        validation.add(userView);
+        validation.add(validate);
  
         JPanel controls = new JPanel(new BorderLayout(10, 10));
         controls.add(entries, BorderLayout.NORTH);
         controls.add(stats, BorderLayout.SOUTH);
-        controls.add(userView, BorderLayout.CENTER);
+        controls.add(validation, BorderLayout.CENTER);
         
         
         sp = new JButton("show positive");
         sp.addActionListener(this);
-        p = new JLabel("nothing displayed");
+        p = new JLabel("");
         stats.add(sp);
         stats.add(p);
         
