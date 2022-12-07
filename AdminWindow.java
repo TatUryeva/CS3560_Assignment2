@@ -30,15 +30,15 @@ public class AdminWindow extends JFrame implements ActionListener
         
         if (s.equals("show user total")) 
         {
-            ut.setText(User.getUserCount()+"");
+            ut.setText(Database.getUser(0).accept(new Visitor()) + "");
         }
         if (s.equals("show group total")) 
         {
-            gt.setText(Group.getGroupCount()+"");
+            gt.setText(Database.getGroup(0).accept(new Visitor()) + "");
         }
         if (s.equals("show message total")) 
         {
-            mt.setText(User.getMessageCount()+"");
+            mt.setText(User.getMessageCount() + "");
         }
         
         if (s.equals("open user view"))
@@ -90,12 +90,12 @@ public class AdminWindow extends JFrame implements ActionListener
         {
         	if (!Database.isEmpty())
         	{
-        		lu.setText(Database.getLastUpdatedUser());
+        		lu.setText(User.getLastUpdatedUser());
         	}       	      	
         }
         if (s.equals("show positive")) 
         {
-            p.setText(Double.toString(Database.getAllUsers().get(0).accept(new Visitor())));
+            p.setText(Database.getPositive() + "");
         }
         
         

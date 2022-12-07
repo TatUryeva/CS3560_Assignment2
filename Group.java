@@ -60,6 +60,11 @@ public class Group
 	{
 		return creationTime;
 	}
+
+	public Double accept(Visitor visitor) 
+	{
+	      return visitor.visit(this);
+	}
 	
 	public String toString()
 	{

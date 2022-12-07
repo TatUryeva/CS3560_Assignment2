@@ -88,7 +88,7 @@ public class UserWindow implements ActionListener
     	
     	user = Database.getUser(id);
 				
-		frame = new JFrame(user.getID() + " User View. Created at " + user.getCreationTime());
+		frame = new JFrame(user.getID() + " User View");
 		GridBagLayout layout = new GridBagLayout();
 		JPanel controls = new JPanel(layout);
 		

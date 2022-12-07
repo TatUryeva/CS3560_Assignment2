@@ -26,6 +26,11 @@ public class Database
 		}
 		return null;
 	}
+
+	public static User getUser(int index)
+	{
+		return users.get(index);
+	}
 	
 	public static Group getGroup(String id)
 	{
@@ -37,6 +42,11 @@ public class Database
 			}
 		}
 		return null;
+	}
+
+	public static Group getGroup(int index)
+	{
+		return groups.get(index);
 	}
 	
 	public static String[] getAllIDs()
@@ -53,21 +63,6 @@ public class Database
 		}
 		return ids;
 	}
-
-	public static String getLastUpdatedUser()
-	{
-		String luu = users.get(0).getID();
-		long temp = users.get(0).getLastUpdateTime();
-		for (int i = 0; i < users.size(); i++)
-		{
-			if (users.get(i).getLastUpdateTime() >= temp)
-			{
-				temp = users.get(i).getLastUpdateTime();
-				luu = users.get(i).getID();
-			}
-		}
-		return luu;
-	}
 	
 	public static boolean isEmpty()
 	{
@@ -81,9 +76,32 @@ public class Database
 		}
 	}
 
-	public static ArrayList<User> getAllUsers()
+	public static double getPositive()
 	{
-		return users;
+		int numPositive = 0;
+		for (int i = 0; i < User.getUserCount(); i++)
+		{
+			for (int j = 0; j < users.get(i).getFeed().size(); i++)
+			{
+				if (users.get(i).getFeed().get(j).toString().indexOf("cool") > 0
+						||users.get(i).getFeed().get(j).toString().indexOf("great") > 0
+						||users.get(i).getFeed().get(j).toString().indexOf("awesome") > 0
+						||users.get(i).getFeed().get(j).toString().indexOf("amazing") > 0
+						||users.get(i).getFeed().get(j).toString().indexOf("nice") > 0)
+				{
+					numPositive++;
+				}
+				
+			}
+		}
+		if (User.getMessageCount() == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return numPositive/User.getMessageCount();
+		}		
 	}
 	
 }

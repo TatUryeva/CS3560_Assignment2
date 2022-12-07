@@ -18,6 +18,7 @@ public class User
 
 	private long creationTime;
 	private long lastUpdateTime;
+	private static String lastUpdatedUser;
 	
 	public User(String id)
 	{
@@ -54,6 +55,7 @@ public class User
 	{
 		feed.add(message);
 		lastUpdateTime = System.currentTimeMillis();
+		lastUpdatedUser = ID;
 	}
 	
 	public String getID()
@@ -117,6 +119,11 @@ public class User
 	public long getLastUpdateTime()
 	{
 		return lastUpdateTime;
+	}
+
+	public static String getLastUpdatedUser()
+	{
+		return lastUpdatedUser;
 	}
 	
 	public ArrayList<String> followingsToStringArrayList()
